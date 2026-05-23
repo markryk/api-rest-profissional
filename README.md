@@ -77,7 +77,7 @@ Execute as migrations
 php artisan migrate
 ```
 
-No arquivo bootstrap/app.php, adicione
+No arquivo *bootstrap/app.php*, adicione
 
 ```
 ->withMiddleware(function (Middleware $middleware): void {
@@ -99,3 +99,47 @@ class User extends Authenticatable {
     use HasApiTokens;
 }
 ```
+
+### Criação de Models, Migrations e Controllers
+```
+php artisan make:model Task -mcr
+php artisan make:model Client -mcr
+php artisan make:model Product -mcr
+php artisan make:model Order -mcr
+php artisan make:model Finance -mcr
+
+(m: migration; c: controller; r: resource controller)
+```
+
+### Configuração de Fillable
+
+xxxModel
+```
+protected $fillable = [
+    (...)
+];
+```
+
+### Criando Autenticação
+
+AuthController
+```
+php artisan make:controller Api/V1/AuthController
+```
+
+No arquivo Api/V1/AuthController.php, desenvolver métodos:
+- register();
+- login();
+- logout();
+
+### Demais Controllers
+
+TaskController, ClientController, ProductController, OrderController, FinanceController
+
+Métodos:
+
+- index();
+- store();
+- show();
+- update();
+- destroy();

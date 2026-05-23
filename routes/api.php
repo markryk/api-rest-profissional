@@ -12,17 +12,16 @@
         Route::post('/register', [AuthController::class, 'register']);
 
         Route::post('/login', [AuthController::class, 'login']);
-        Route::get('/logout', [AuthController::class, 'logout']);
 
         Route::middleware('auth:sanctum')->group(function () {
 
             Route::post('/logout', [AuthController::class, 'logout']);
 
-            /*Route::apiResource('tasks', TaskController::class);
+            Route::apiResource('tasks', TaskController::class);
             Route::apiResource('clients', ClientController::class);
-            Route::apiResource('/products', [ProductController::class]);
+            Route::apiResource('products', ProductController::class);
             Route::apiResource('orders', OrderController::class);
-            Route::apiResource('finances', FinanceController::class);*/
+            Route::apiResource('finances', FinanceController::class);
         });
     });
 ?>
