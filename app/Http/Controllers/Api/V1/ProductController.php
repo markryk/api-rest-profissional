@@ -10,10 +10,38 @@ use App\Http\Resources\ProductCollection;
 
 class ProductController extends Controller {
     //Display a listing of the resource
-    public function index() {
+    public function index(Request $request) {
         
+        $query = Product::query();
+
+        if ($request->name) {
+            $query->where('name', 'LIKE', "%{$request->name}%");
+        }
+        if ($request->price) {
+            $query->where('price', '=', $request->price);
+        }
+        if ($request->min_price) {
+            $query->where('price', '>=', $request->min_price);
+        }
+        if ($request->max_price) {
+            $query->where('price', '<=', $request->max_price);
+        }
+        if ($request->stock) {
+            $query->where('stock', '=', $request->stock);
+        }
+        if ($request->min_stock) {
+            $query->where('stock', '>=', $request->min_stock);
+        }
+        if ($request->max_stock) {
+            $query->where('stock', '<=', $request->max_stock);
+        }
+
+        return response()->json(
+            $query->paginate(4)
+        );
+
         //Utilizando apiResource e ProductCollection
-        return new ProductCollection(Product::all());
+        //return new ProductCollection(Product::all());
     }
 
     //Store a newly created resource in storage

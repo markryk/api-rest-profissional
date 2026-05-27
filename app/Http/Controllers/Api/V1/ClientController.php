@@ -7,14 +7,33 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\ClientCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ClientController extends Controller {
 
     //Display a listing of the resource
-    public function index() {
+    public function index(Request $request) {
+
+        $query = Client::query();
+
+        if ($request->name) {
+            $query->where('name', 'LIKE', "%{$request->name}%");
+        }
+        if ($request->email) {
+            $query->where('email', 'LIKE', "%{$request->email}%");
+        }
+        if ($request->max_price) {
+            $query->where('phone', 'LIKE', "%{$request->phone}%");
+        }
+
+        return response()->json(
+            $query->paginate(4)
+        );
+
+        //$clients = QueryBuilder::for(Client::class)->allowedFilters('name')->get();
 
         //Utilizando apiResource e ClientCollection
-        return new ClientCollection(Client::all());
+        //return new ClientCollection(Client::paginate(5)); //Paginação (no caso, 5 clientes por página)
     }
 
     //Store a newly created resource in storage

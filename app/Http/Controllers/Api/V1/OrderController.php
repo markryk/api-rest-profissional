@@ -10,10 +10,29 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller {
     //Display a listing of the resource
-    public function index() {
+    public function index(Request $request) {
+
+        $query = Order::query();
+
+        /*if ($request->client_id) {
+            $query->where('client_id', 'LIKE', "%{$request->client_id}%");
+        }*/
+        if ($request->total) {
+            $query->where('total', '=', $request->total);
+        }
+        if ($request->min_total) {
+            $query->where('total', '>=', $request->min_total);
+        }
+        if ($request->max_total) {
+            $query->where('total', '<=', $request->max_total);
+        }
+
+        return response()->json(
+            $query->paginate(4)
+        );
 
         //Utilizando apiResource e OrderCollection
-        return new OrderCollection(Order::all());
+        //return new OrderCollection(Order::all());
     }
 
     //Store a newly created resource in storage

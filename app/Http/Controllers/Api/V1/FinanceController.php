@@ -10,10 +10,32 @@ use Illuminate\Http\Request;
 
 class FinanceController extends Controller {
     //Display a listing of the resource
-    public function index() {
+    public function index(Request $request) {
+
+        $query = Finance::query();
+
+        if ($request->type) {
+            $query->where('type', 'LIKE', "%{$request->type}%");
+        }
+        if ($request->amount) {
+            $query->where('amount', '=', $request->amount);
+        }
+        if ($request->min_amount) {
+            $query->where('amount', '>=', $request->min_amount);
+        }
+        if ($request->max_amount) {
+            $query->where('amount', '<=', $request->max_amount);
+        }
+        if ($request->description) {
+            $query->where('description', 'LIKE', "%{$request->description}%");
+        }
+
+        return response()->json(
+            $query->paginate(4)
+        );
 
         //Utilizando apiResource e FinanceCollection
-        return new FinanceCollection(Finance::all());
+        //return new FinanceCollection(Finance::all());
     }
 
     //Store a newly created resource in storage

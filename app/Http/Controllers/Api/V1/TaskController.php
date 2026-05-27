@@ -11,10 +11,26 @@ use App\Http\Resources\TaskCollection;
 class TaskController extends Controller {
     
     //Display a listing of the resource
-    public function index() {
+    public function index(Request $request) {
+
+        $query = Task::query();
+
+        if ($request->title) {
+            $query->where('title', 'LIKE', "%{$request->title}%");
+        }
+        if ($request->description) {
+            $query->where('description', 'LIKE', "%{$request->description}%");
+        }
+        if ($request->status) {
+            $query->where('status', 'LIKE', "%{$request->status}%");
+        }
+
+        return response()->json(
+            $query->paginate(4)
+        );
 
         //Utilizando apiResource e ProductCollection
-        return new TaskCollection(Task::all());
+        //return new TaskCollection(Task::all());
     }
 
     //Store a newly created resource in storage

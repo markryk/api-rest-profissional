@@ -143,3 +143,16 @@ Métodos:
 - show();
 - update();
 - destroy();
+
+### Paginação
+
+Laravel possui paginação nativa, no Controller apenas acrescente o número de registros por página:
+```
+(...)
+return new XxxCollection(Xxx::paginate(5));
+(...)
+```
+
+### Filtros avançados
+
+Desenvolver
