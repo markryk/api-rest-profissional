@@ -53,7 +53,16 @@ class ProductController extends Controller {
             'price' => 'required|numeric',
             'stock' => 'required|numeric'
         ]));
-        return new ProductResource($product);
+
+        //Padronizando resposta ao criar o produto
+        return response()->json([
+            'success' => true,
+            'message' => 'Produto criado com sucesso',
+            'data' => $product
+        ], 201);
+
+        //Faz uso de Resource do Eloquent
+        //return new ProductResource($product);
     }
 
     //Display the specified resource
